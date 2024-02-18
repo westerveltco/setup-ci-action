@@ -16,7 +16,7 @@ When it comes time to cut a new release, follow these steps:
 
    The `bumpver.toml` in the base of the repository contains a `[bumpver]` section that configures the `bumpver` tool to update the version number wherever it needs to be updated and to create a commit with the appropriate commit message.
 
-   A `just bump` command is included in the project's `Justfile`. You should use this command to update the version number. `pipx` is required to run the command. If you do not have `pipx` installed, you can install it with the following command:
+   A `just bump` command is included in the project's `Justfile`. You should use this command to update the version number. `pipx` is required to run this command. If you do not have `pipx` installed, you can install it with the following command:
 
    ```shell
    python -m pip install pipx
