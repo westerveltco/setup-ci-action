@@ -18,6 +18,12 @@ and this project attempts to adhere to [Semantic Versioning](https://semver.org/
 
 ## [Unreleased]
 
+## [0.1.1]
+
+### Fixed
+
+- Fixed a bug when passing in multiple requirements files for Python. (Hopefully!)
+
 ## [0.1.0]
 
 Initial release! 🎉
@@ -29,5 +35,6 @@ Initial release! 🎉
 
 - Josh Thomas <josh@joshthomas.dev> (maintainer)
 
-[unreleased]: https://github.com/westerveltco/setup-ci-action/compare/v0.1.0...HEAD
+[unreleased]: https://github.com/westerveltco/setup-ci-action/compare/v0.1.1...HEAD
 [0.1.0]: https:L//github.com/westerveltco/setup-ci-action/releases/tag/v0.1.0
+[0.1.1]: https:L//github.com/westerveltco/setup-ci-action/releases/tag/v0.1.1
