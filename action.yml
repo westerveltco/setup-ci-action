@@ -18,18 +18,6 @@ runs:
       with:
         persist-credentials: false
 
-    - name: Prepare Python requirements
-      id: prepare-python-requirements
-      env:
-        REQUIREMENTS: ${{ inputs.python-requirements }}
-      shell: bash
-      run: |
-        IFS=',' read -ra REQ_FILES <<< "$REQUIREMENTS"
-        for req_file in "${REQ_FILES[@]}"; do
-          echo "$req_file"
-        done > req_files_list.txt
-        echo "files_list=$(<req_files_list.txt)" >> $GITHUB_OUTPUT
-
     - uses: actions/setup-python@v5
       with:
         python-version: ${{ inputs.python-version }}
@@ -44,9 +32,10 @@ runs:
       id: python-requirements-hash
       shell: bash
       run: |
-        while read req_file; do
-          cat $req_file >> combined_requirements.txt
-        done <<< "${{ steps.prepare-python-requirements.outputs.files_list }}"
+        IFS=',' read -ra REQ_FILES <<< "${{ inputs.python-requirements }}"
+        for req_file in "${REQ_FILES[@]}"; do
+          cat "$req_file" >> combined_requirements.txt
+        done
         echo "hash=$(sha256sum combined_requirements.txt | awk '{print $1}')" >> $GITHUB_OUTPUT
 
     - uses: actions/cache@v4
@@ -82,9 +71,10 @@ runs:
       shell: bash
       run: |
         python -m pip install -U pip
-        while read req_file; do
-          python -m pip install --no-warn-script-location -r $req_file
-        done <<< "${{ steps.prepare-python-requirements.outputs.files_list }}"
+        IFS=',' read -ra REQ_FILES <<< "${{ inputs.python-requirements }}"
+        for req_file in "${REQ_FILES[@]}"; do
+          python -m pip install --no-warn-script-location -r "$req_file"
+        done
 
     - name: Install Node.js dependencies
       if: ${{ inputs.node-version }}
