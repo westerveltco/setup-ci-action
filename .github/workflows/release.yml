@@ -1,0 +1,25 @@
+name: release
+
+on:
+  release:
+    types: [released]
+  workflow_dispatch:
+    inputs:
+      full_release:
+        description: The full release version this major version will point to
+        required: true
+
+env:
+  TAG_NAME: ${{ github.event.inputs.tag_name || github.event.release.tag_name }}
+
+permissions:
+  contents: write
+
+jobs:
+  update-major-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update the ${{ env.TAG_NAME }} tag
+        uses: actions/publish-action@v0.2.2
+        with:
+          source-tag: ${{ env.TAG_NAME }}
