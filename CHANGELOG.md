@@ -18,6 +18,12 @@ and this project attempts to adhere to [Semantic Versioning](https://semver.org/
 
 ## [Unreleased]
 
+## [0.1.2]
+
+### Added
+
+- A new `release` workflow for automatically updating a major tag based on the latest minor or patch release.
+
 ## [0.1.1]
 
 ### Fixed
@@ -35,6 +41,7 @@ Initial release! 🎉
 
 - Josh Thomas <josh@joshthomas.dev> (maintainer)
 
-[unreleased]: https://github.com/westerveltco/setup-ci-action/compare/v0.1.1...HEAD
+[unreleased]: https://github.com/westerveltco/setup-ci-action/compare/v0.1.2...HEAD
 [0.1.0]: https:L//github.com/westerveltco/setup-ci-action/releases/tag/v0.1.0
 [0.1.1]: https:L//github.com/westerveltco/setup-ci-action/releases/tag/v0.1.1
+[0.1.2]: https:L//github.com/westerveltco/setup-ci-action/releases/tag/v0.1.2
