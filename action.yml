@@ -10,8 +10,7 @@ inputs:
     required: true
   node-version:
     description: The version of Node.js to setup
-    required: true
-    default: "20"
+    required: false
 runs:
   using: composite
   steps:
@@ -58,23 +57,26 @@ runs:
           ${{ runner.os }}-pip-
 
     - uses: actions/setup-node@v4
+      if: ${{ inputs.node-version }}
       with:
         node-version: ${{ inputs.node-version }}
 
     - name: Get npm cache dir
+      if: ${{ inputs.node-version }}
       id: npm-cache
       shell: bash
       run: |
         echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
 
     - uses: actions/cache@v4
+      if: ${{ inputs.node-version }}
       with:
         path: ${{ steps.npm-cache.outputs.dir }}
         key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-npm-
 
-    - name: Install dependencies
+    - name: Install Python dependencies
       env:
         PIP_CACHE_DIR: ${{ steps.pip-cache.outputs.dir }}
       shell: bash
@@ -83,4 +85,9 @@ runs:
         while read req_file; do
           python -m pip install --no-warn-script-location -r $req_file
         done <<< "${{ steps.prepare-python-requirements.outputs.files_list }}"
+
+    - name: Install Node.js dependencies
+      if: ${{ inputs.node-version }}
+      shell: bash
+      run: |
         npm install
