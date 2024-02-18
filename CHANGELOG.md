@@ -18,6 +18,9 @@ and this project attempts to adhere to [Semantic Versioning](https://semver.org/
 
 ## [Unreleased]
 
+## [0.1.0]
+
+Initial release! 🎉
 ### Added
 
 - Initial `action.yml` file containing composite GitHub Action for setting up Python and Node.js CI environments.
@@ -26,4 +29,5 @@ and this project attempts to adhere to [Semantic Versioning](https://semver.org/
 
 - Josh Thomas <josh@joshthomas.dev> (maintainer)
 
-[unreleased]: https://github.com/westerveltco/setup-ci-action/commits/main/
+[unreleased]: https://github.com/westerveltco/setup-ci-action/compare/v0.1.0...HEAD
+[0.1.0]: https:L//github.com/westerveltco/setup-ci-action/releases/tag/v0.1.0
