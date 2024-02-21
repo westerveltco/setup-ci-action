@@ -46,6 +46,7 @@ runs:
             cat "$req_file" >> combined_requirements.txt
           done
           HASH_INPUT+="$(sha256sum combined_requirements.txt | awk '{print $1}')-"
+          rm combined_requirements.txt
         fi
         if [ -n "${{ inputs.extra-python-dependencies }}" ]; then
           HASH_INPUT+="${{ inputs.extra-python-dependencies }}"
