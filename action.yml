@@ -87,7 +87,7 @@ runs:
         python -m pip install -U pip
         if [ -n "${{ inputs.python-requirements }}" ]; then
           REQ_FILES_ARG=$(echo "${{ inputs.python-requirements }}" | sed "s/,/ -r /g")
-          python -m pip install --no-warn-script-location -r $REQ_FILES_ARG
+          python -m pip install --no-warn-script-location $REQ_FILES_ARG
         fi
         if [ -n "${{ inputs.extra-python-dependencies }}" ]; then
           EXTRA_DEPS=$(echo "${{ inputs.extra-python-dependencies }}" | tr ',' ' ')
