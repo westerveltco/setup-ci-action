@@ -20,7 +20,7 @@ runs:
       run: |
         echo "Either `python-requirements` and/or `extra-python-dependencies` must be provided" >> $GITHUB_OUTPUT
         exit 1
-      
+
     - uses: actions/checkout@v4
       with:
         persist-credentials: false
