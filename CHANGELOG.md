@@ -18,6 +18,10 @@ and this project attempts to adhere to [Semantic Versioning](https://semver.org/
 
 ## [Unreleased]
 
+### Removed
+
+- Removed the `actions/checkout` step from action. This should be done in the workflow file before calling this action.
+
 ## [0.2.2]
 
 ### Fixed
