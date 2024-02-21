@@ -18,6 +18,10 @@ and this project attempts to adhere to [Semantic Versioning](https://semver.org/
 
 ## [Unreleased]
 
+### Fixed
+
+- Added a leading `-r` to the requirements files argument in the Python installation step when `python-requirements` is provided.
+
 ## [0.2.0]
 
 ### Added
