@@ -18,6 +18,15 @@ and this project attempts to adhere to [Semantic Versioning](https://semver.org/
 
 ## [Unreleased]
 
+### Added
+
+- An `extra-python-dependencies` input for specifying additional Python dependencies to install, in addition to any requirements files.
+
+### Changed
+
+- Exit the workflow early if either `python-requirements` or `extra-python-dependencies` are not set.
+- Updated the Python hashing and installation steps to account for the new `extra-python-dependencies` input.
+
 ## [0.1.2]
 
 ### Added
