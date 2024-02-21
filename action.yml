@@ -21,10 +21,6 @@ runs:
         echo "Either `python-requirements` and/or `extra-python-dependencies` must be provided" >> $GITHUB_OUTPUT
         exit 1
 
-    - uses: actions/checkout@v4
-      with:
-        persist-credentials: false
-
     - uses: actions/setup-python@v5
       with:
         python-version: ${{ inputs.python-version }}
