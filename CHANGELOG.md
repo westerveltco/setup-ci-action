@@ -24,7 +24,7 @@ and this project attempts to adhere to [Semantic Versioning](https://semver.org/
 
 ### Changed
 
-- Exit the workflow early if either `python-requirements` or `extra-python-dependencies` are not set.
+- Exit the workflow early if neither `python-requirements` or `extra-python-dependencies` are provided.
 - Updated the Python hashing and installation steps to account for the new `extra-python-dependencies` input.
 
 ## [0.1.2]
