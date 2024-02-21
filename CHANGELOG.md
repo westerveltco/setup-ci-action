@@ -18,6 +18,16 @@ and this project attempts to adhere to [Semantic Versioning](https://semver.org/
 
 ## [Unreleased]
 
+### Added
+
+- An `extra-python-dependencies` input for specifying additional Python dependencies to install, in addition to any requirements files.
+
+### Changed
+
+- `python-requirements` is now marked as not required in the `action.yml` file. This is now checked at a workflow step level. See the next item for more information.
+- Exit the workflow early if neither `python-requirements` or `extra-python-dependencies` are provided.
+- Updated the Python hashing and installation steps to account for the new `extra-python-dependencies` input.
+
 ## [0.1.2]
 
 ### Added
