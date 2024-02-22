@@ -18,6 +18,10 @@ and this project attempts to adhere to [Semantic Versioning](https://semver.org/
 
 ## [Unreleased]
 
+### Added
+
+- An `python-nohash-requirements` input for specifying Python requirements files to install without hashing them for caching.
+
 ## [0.3.0]
 
 ### Removed

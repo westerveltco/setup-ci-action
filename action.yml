@@ -6,9 +6,12 @@ inputs:
     required: true
     default: "3.11"
   python-requirements:
-    description: A comma-deliniated list of requirements*.txt files for use with pip
+    description: A comma-deliniated list of requirements*.txt files to be installed and cached
+  python-nohash-requirements:
+    description: A comma-deliniated list of requirements*.txt files to be installed, but not cached
+    required: false
   extra-python-dependencies:
-    description: A comma-deliniated list of extra dependencies to install with pip
+    description: A comma-deliniated list of extra dependencies to be installed
   node-version:
     description: The version of Node.js to setup
     required: false
@@ -82,13 +85,25 @@ runs:
       shell: bash
       run: |
         python -m pip install -U pip
+        INSTALL_ARGS=""
         if [ -n "${{ inputs.python-requirements }}" ]; then
-          REQ_FILES_ARG="-r $(echo "${{ inputs.python-requirements }}" | sed "s/,/ -r /g")"
-          python -m pip install --no-warn-script-location $REQ_FILES_ARG
+          IFS=',' read -ra REQ_FILES <<< "${{ inputs.python-requirements }}"
+          for REQ_FILE in "${REQ_FILES[@]}"; do
+            INSTALL_ARGS="$INSTALL_ARGS -r $REQ_FILE"
+          done
+        fi
+        if [ -n "${{ inputs.python-requirements-nohash }}" ]; then
+          IFS=',' read -ra NOHASH_REQ_FILES <<< "${{ inputs.python-requirements-nohash }}"
+          for NOHASH_REQ_FILE in "${NOHASH_REQ_FILES[@]}"; do
+            INSTALL_ARGS="$INSTALL_ARGS -r $NOHASH_REQ_FILE"
+          done
         fi
         if [ -n "${{ inputs.extra-python-dependencies }}" ]; then
           EXTRA_DEPS=$(echo "${{ inputs.extra-python-dependencies }}" | tr ',' ' ')
-          python -m pip install --no-warn-script-location $EXTRA_DEPS
+          INSTALL_ARGS="$INSTALL_ARGS $EXTRA_DEPS"
+        fi
+        if [ -n "$INSTALL_ARGS" ]; then
+          python -m pip install --no-warn-script-location $INSTALL_ARGS
         fi
 
     - name: Install Node.js dependencies
