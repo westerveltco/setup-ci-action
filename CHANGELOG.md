@@ -18,6 +18,10 @@ and this project attempts to adhere to [Semantic Versioning](https://semver.org/
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed a bug where hashed and non-hashed requirements could not be installed together with the same `pip` command.
+
 ## [0.4.1]
 
 ### Fixed
