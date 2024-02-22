@@ -18,6 +18,10 @@ and this project attempts to adhere to [Semantic Versioning](https://semver.org/
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed a bug where there was a mismatch between name of the `python-requirements-nohash` input and where it was being used in the action.
+
 ## [0.4.0]
 
 ### Added

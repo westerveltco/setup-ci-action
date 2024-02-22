@@ -7,7 +7,7 @@ inputs:
     default: "3.11"
   python-requirements:
     description: A comma-deliniated list of requirements*.txt files to be installed and cached
-  python-nohash-requirements:
+  python-requirements-nohash:
     description: A comma-deliniated list of requirements*.txt files to be installed, but not cached
     required: false
   extra-python-dependencies:
