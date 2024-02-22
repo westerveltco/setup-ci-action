@@ -87,23 +87,17 @@ runs:
         python -m pip install -U pip
         INSTALL_ARGS=""
         if [ -n "${{ inputs.python-requirements }}" ]; then
-          IFS=',' read -ra REQ_FILES <<< "${{ inputs.python-requirements }}"
-          for REQ_FILE in "${REQ_FILES[@]}"; do
-            INSTALL_ARGS="$INSTALL_ARGS -r $REQ_FILE"
-          done
-        fi
-        if [ -n "${{ inputs.python-requirements-nohash }}" ]; then
-          IFS=',' read -ra NOHASH_REQ_FILES <<< "${{ inputs.python-requirements-nohash }}"
-          for NOHASH_REQ_FILE in "${NOHASH_REQ_FILES[@]}"; do
-            INSTALL_ARGS="$INSTALL_ARGS -r $NOHASH_REQ_FILE"
-          done
+          INSTALL_ARGS+="$(echo "${{ inputs.python-requirements }}" | sed "s/,/ -r /g" | sed 's/^/-r /')"
         fi
         if [ -n "${{ inputs.extra-python-dependencies }}" ]; then
-          EXTRA_DEPS=$(echo "${{ inputs.extra-python-dependencies }}" | tr ',' ' ')
-          INSTALL_ARGS="$INSTALL_ARGS $EXTRA_DEPS"
+          INSTALL_ARGS+=" $(echo "${{ inputs.extra-python-dependencies }}" | tr ',' ' ')"
         fi
         if [ -n "$INSTALL_ARGS" ]; then
           python -m pip install --no-warn-script-location $INSTALL_ARGS
+        fi
+        if [ -n "${{ inputs.python-requirements-nohash }}" ]; then
+          NOHASH_REQ_FILES_ARG="-r $(echo "${{ inputs.python-requirements-nohash }}" | sed "s/,/ -r /g")"
+          python -m pip install --no-warn-script-location $NOHASH_REQ_FILES_ARG
         fi
 
     - name: Install Node.js dependencies
