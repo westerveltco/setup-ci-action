@@ -34,7 +34,7 @@ runs:
     - name: Install prerequisites
       shell: bash
       run: |
-        if [ -n "${{ inputs.use-uv }}"]; then
+        if [ -n "${{ inputs.use-uv }}" ]; then
           python -m pip install -U pip uv
         else
           python -m pip install -U pip
@@ -44,7 +44,7 @@ runs:
       id: py-cache
       shell: bash
       run: |
-        if [ -n "${{ inputs.use-uv }}"]; then
+        if [ -n "${{ inputs.use-uv }}" ]; then
           echo "dir=$(uv cache dir)" >> $GITHUB_OUTPUT
         else
           echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
@@ -108,7 +108,7 @@ runs:
           INSTALL_ARGS+=" $(echo "${{ inputs.extra-python-dependencies }}" | tr ',' ' ')"
         fi
         if [ -n "$INSTALL_ARGS" ]; then
-          if [ -n "${{ inputs.use-uv }}"]; then
+          if [ -n "${{ inputs.use-uv }}" ]; then
             python -m uv pip install --no-warn-script-location $INSTALL_ARGS
           else
             python -m pip install --no-warn-script-location $INSTALL_ARGS
@@ -116,7 +116,7 @@ runs:
         fi
         if [ -n "${{ inputs.python-requirements-nohash }}" ]; then
           NOHASH_REQ_FILES_ARG="-r $(echo "${{ inputs.python-requirements-nohash }}" | sed "s/,/ -r /g")"
-          if [ -n "${{ inputs.use-uv }}"]; then
+          if [ -n "${{ inputs.use-uv }}" ]; then
             python -m uv pip install --no-warn-script-location $NOHASH_REQ_FILES_ARG
           else
             python -m pip install --no-warn-script-location $NOHASH_REQ_FILES_ARG
