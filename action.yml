@@ -70,7 +70,7 @@ runs:
 
     - uses: actions/cache@v4
       with:
-        path: ${{ steps.pip-cache.outputs.dir }}
+        path: ${{ steps.py-cache.outputs.dir }}
         key: ${{ runner.os }}-py-${{ steps.python-requirements-hash.outputs.hash }}
         restore-keys: |
           ${{ runner.os }}-py-
