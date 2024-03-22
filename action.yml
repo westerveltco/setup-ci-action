@@ -109,7 +109,7 @@ runs:
         fi
         if [ -n "$INSTALL_ARGS" ]; then
           if [ -n "${{ inputs.use-uv }}" ]; then
-            python -m uv pip install $INSTALL_ARGS
+            python -m uv pip install --system $INSTALL_ARGS
           else
             python -m pip install --no-warn-script-location $INSTALL_ARGS
           fi
@@ -117,7 +117,7 @@ runs:
         if [ -n "${{ inputs.python-requirements-nohash }}" ]; then
           NOHASH_REQ_FILES_ARG="-r $(echo "${{ inputs.python-requirements-nohash }}" | sed "s/,/ -r /g")"
           if [ -n "${{ inputs.use-uv }}" ]; then
-            python -m uv pip install $NOHASH_REQ_FILES_ARG
+            python -m uv pip install --system $NOHASH_REQ_FILES_ARG
           else
             python -m pip install --no-warn-script-location $NOHASH_REQ_FILES_ARG
           fi
