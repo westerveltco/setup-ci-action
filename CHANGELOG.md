@@ -18,6 +18,8 @@ and this project attempts to adhere to [Semantic Versioning](https://semver.org/
 
 ## [Unreleased]
 
+## [0.5.0]
+
 ## [0.4.2]
 
 ### Fixed
@@ -89,7 +91,7 @@ Initial release! 🎉
 
 - Josh Thomas <josh@joshthomas.dev> (maintainer)
 
-[unreleased]: https://github.com/westerveltco/setup-ci-action/compare/v0.4.2...HEAD
+[unreleased]: https://github.com/westerveltco/setup-ci-action/compare/v0.5.0...HEAD
 [0.1.0]: https:L//github.com/westerveltco/setup-ci-action/releases/tag/v0.1.0
 [0.1.1]: https:L//github.com/westerveltco/setup-ci-action/releases/tag/v0.1.1
 [0.1.2]: https:L//github.com/westerveltco/setup-ci-action/releases/tag/v0.1.2
@@ -100,3 +102,4 @@ Initial release! 🎉
 [0.4.0]: https://github.com/westerveltco/setup-ci-action/releases/tag/v0.4.0
 [0.4.1]: https://github.com/westerveltco/setup-ci-action/releases/tag/v0.4.1
 [0.4.2]: https://github.com/westerveltco/setup-ci-action/releases/tag/v0.4.2
+[0.5.0]: https://github.com/westerveltco/setup-ci-action/releases/tag/v0.5.0
