@@ -50,3 +50,5 @@ runs:
         key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-npm-
+
+    - uses: extractions/setup-just@v2
