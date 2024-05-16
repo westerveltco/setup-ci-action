@@ -4,127 +4,49 @@ inputs:
   python-version:
     description: The version of Python to setup
     required: true
-    default: "3.11"
-  python-requirements:
-    description: A comma-deliniated list of requirements*.txt files to be installed and cached
-  python-requirements-nohash:
-    description: A comma-deliniated list of requirements*.txt files to be installed, but not cached
-    required: false
-  extra-python-dependencies:
-    description: A comma-deliniated list of extra dependencies to be installed
-  use-uv:
-    description: Use `uv` for dependency installation
-    required: false
+    default: "3.12"
   node-version:
     description: The version of Node.js to setup
-    required: false
+    required: true
+    default: "20"
 runs:
   using: composite
   steps:
-    - if: ${{ !inputs.python-requirements && !inputs.extra-python-dependencies }}
-      shell: bash
-      run: |
-        echo "Either `python-requirements` and/or `extra-python-dependencies` must be provided" >> $GITHUB_OUTPUT
-        exit 1
-
     - uses: actions/setup-python@v5
       with:
         python-version: ${{ inputs.python-version }}
 
-    - name: Install prerequisites
+    - name: Install uv
       shell: bash
       run: |
-        if [ -n "${{ inputs.use-uv }}" ]; then
-          python -m pip install -U pip uv
-        else
-          python -m pip install -U pip
-        fi
+        python -m pip install -U pip uv
 
     - name: Get cache dir
       id: py-cache
       shell: bash
       run: |
-        if [ -n "${{ inputs.use-uv }}" ]; then
-          echo "dir=$(uv cache dir)" >> $GITHUB_OUTPUT
-        else
-          echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
-        fi
-
-    - name: Generate Python requirements hash
-      id: python-requirements-hash
-      shell: bash
-      run: |
-        HASH_INPUT=""
-        if [ -n "${{ inputs.python-requirements }}" ]; then
-          IFS=',' read -ra REQ_FILES <<< "${{ inputs.python-requirements }}"
-          for req_file in "${REQ_FILES[@]}"; do
-            cat "$req_file" >> combined_requirements.txt
-          done
-          HASH_INPUT+="$(sha256sum combined_requirements.txt | awk '{print $1}')-"
-          rm combined_requirements.txt
-        fi
-        if [ -n "${{ inputs.extra-python-dependencies }}" ]; then
-          HASH_INPUT+="${{ inputs.extra-python-dependencies }}"
-        fi
-        echo "hash=$(echo -n $HASH_INPUT | sha256sum | awk '{print $1}')" >> $GITHUB_OUTPUT
+        echo "dir=$(uv cache dir)" >> $GITHUB_OUTPUT
 
     - uses: actions/cache@v4
       with:
         path: ${{ steps.py-cache.outputs.dir }}
-        key: ${{ runner.os }}-py-${{ steps.python-requirements-hash.outputs.hash }}
+        key: ${{ runner.os }}-py-${{ hashFiles('**/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-py-
 
     - uses: actions/setup-node@v4
-      if: ${{ inputs.node-version }}
       with:
         node-version: ${{ inputs.node-version }}
 
     - name: Get npm cache dir
-      if: ${{ inputs.node-version }}
       id: npm-cache
       shell: bash
       run: |
         echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
 
     - uses: actions/cache@v4
-      if: ${{ inputs.node-version }}
       with:
         path: ${{ steps.npm-cache.outputs.dir }}
         key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-npm-
-
-    - name: Install Python dependencies
-      env:
-        PIP_CACHE_DIR: ${{ steps.pip-cache.outputs.dir }}
-      shell: bash
-      run: |
-        INSTALL_ARGS=""
-        if [ -n "${{ inputs.python-requirements }}" ]; then
-          INSTALL_ARGS+="$(echo "${{ inputs.python-requirements }}" | sed "s/,/ -r /g" | sed 's/^/-r /')"
-        fi
-        if [ -n "${{ inputs.extra-python-dependencies }}" ]; then
-          INSTALL_ARGS+=" $(echo "${{ inputs.extra-python-dependencies }}" | tr ',' ' ')"
-        fi
-        if [ -n "$INSTALL_ARGS" ]; then
-          if [ -n "${{ inputs.use-uv }}" ]; then
-            python -m uv pip install --system $INSTALL_ARGS
-          else
-            python -m pip install --no-warn-script-location $INSTALL_ARGS
-          fi
-        fi
-        if [ -n "${{ inputs.python-requirements-nohash }}" ]; then
-          NOHASH_REQ_FILES_ARG="-r $(echo "${{ inputs.python-requirements-nohash }}" | sed "s/,/ -r /g")"
-          if [ -n "${{ inputs.use-uv }}" ]; then
-            python -m uv pip install --system $NOHASH_REQ_FILES_ARG
-          else
-            python -m pip install --no-warn-script-location $NOHASH_REQ_FILES_ARG
-          fi
-        fi
-
-    - name: Install Node.js dependencies
-      if: ${{ inputs.node-version }}
-      shell: bash
-      run: |
-        npm install
