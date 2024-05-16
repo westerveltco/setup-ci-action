@@ -13,7 +13,9 @@ runs:
   using: composite
   steps:
     - shell: bash
-      run: sudo chown -R $(whoami) /github/home
+      run: |
+        SUDO=$(command -v sudo || echo "")
+        [ -d /github/home ] && $SUDO chown -R $(whoami) /github/home
 
     - uses: actions/setup-python@v5
       with:
